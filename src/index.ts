@@ -19,15 +19,15 @@ class DaosignPolkadotContractInteractor {
   }
 
   public storeProofOfAuthority(wallet: KeyringPair, params: ProofOfAuthorityVariables){
-    return this.sendTransaction(wallet, "storeProofOfAuthority", params);
+    return this.sendTransaction(wallet, "storeProofOfAuthority", [params]);
   }
 
   public storeProofOfSignature(wallet: KeyringPair, params: ProofOfSignatureVariables){
-    return this.sendTransaction(wallet, "storeProofOfSignature", params);
+    return this.sendTransaction(wallet, "storeProofOfSignature", [params]);
   }
 
   public storeProofOfAgreement(wallet: KeyringPair, params: ProofOfAgreementVariables){
-    return this.sendTransaction(wallet, "storeProofOfAgreement", params);
+    return this.sendTransaction(wallet, "storeProofOfAgreement", [params]);
   }
 
   public connectWallet(accountSeed: string) {
@@ -35,7 +35,7 @@ class DaosignPolkadotContractInteractor {
     return keyring.addFromUri(accountSeed);
   }
 
-  private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T): Promise<unknown> {
+  private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T[]): Promise<unknown> {
     await cryptoWaitReady();
 
     const { gasRequired, storageDeposit } = await this.contract.query[methodName](account.address, {}, ...params);
