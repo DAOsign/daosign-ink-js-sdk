@@ -1,0 +1,24 @@
+{
+  "name": "daosign-polkadot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:lib": "npm run build -w=@daosign/polkadot",
+    "publish:lib": "npm run publish -w=@daosign/polkadot"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@polkadot/api": "^12.1.1",
+    "@polkadot/api-contract": "^12.1.1",
+    "@polkadot/keyring": "^12.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
