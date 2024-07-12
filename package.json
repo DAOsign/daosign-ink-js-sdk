@@ -1,12 +1,12 @@
 {
   "name": "daosign-polkadot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "build:lib": "npm run build -w=@daosign/polkadot",
-    "publish:lib": "npm run publish -w=@daosign/polkadot"
+    "build:lib": "tsc && npm pack",
+    "publish:lib": "npm run publish"
   },
   "keywords": [],
   "author": "",
