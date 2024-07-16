@@ -10,8 +10,8 @@ export class DaosignPolkadotContractInteractor {
   private readonly address: string;
   private readonly abi: any;
 
-  constructor(providerUrl: string, address: string, abi: any) {
-    this.wsProvider = new WsProvider('wss://rococo-contracts-rpc.polkadot.io');
+  constructor(address: string, abi: any, providerUrl = 'wss://rococo-contracts-rpc.polkadot.io') {
+    this.wsProvider = new WsProvider(providerUrl);
     this.address = address;
     this.abi = abi;
   }
@@ -33,7 +33,7 @@ export class DaosignPolkadotContractInteractor {
     return keyring.addFromUri(accountSeed);
   }
 
-  private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T[]): Promise<unknown> {
+  private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T[]): Promise<string> {
     await cryptoWaitReady();
     const api = await ApiPromise.create({ provider: this.wsProvider })
     const abi = new Abi(this.abi, api.registry.getChainProperties())
@@ -46,7 +46,7 @@ export class DaosignPolkadotContractInteractor {
       storageDepositLimit: storageDeposit.asCharge
     }, ...params);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       tx.signAndSend(account, (result) => {
         if (result.status.isFinalized) {
           resolve(result.txHash.toHex());
