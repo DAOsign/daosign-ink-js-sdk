@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "src", "tsconfig.json"],
   "scripts": {
     "build": "tsc",
     "build:lib": "tsc && npm pack",
