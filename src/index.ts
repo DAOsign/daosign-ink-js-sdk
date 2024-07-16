@@ -5,28 +5,26 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import {KeyringPair} from "@polkadot/keyring/types";
 import {ProofOfAgreementVariables, ProofOfAuthorityVariables, ProofOfSignatureVariables} from "./proofTypes";
 
-class DaosignPolkadotContractInteractor {
-  private api: ApiPromise;
-  private contract: ContractPromise;
-  private address: string;
-  private readonly abi: Abi;
+export class DaosignPolkadotContractInteractor {
+  private readonly wsProvider: WsProvider;
+  private readonly address: string;
+  private readonly abi: any;
 
-  constructor(api: ApiPromise, address: string, abi: any) {
-    this.api = api;
+  constructor(providerUrl: string, address: string, abi: any) {
+    this.wsProvider = new WsProvider('wss://rococo-contracts-rpc.polkadot.io');
     this.address = address;
-    this.abi = new Abi(abi, api.registry.getChainProperties());
-    this.contract = new ContractPromise(api, this.abi, address);
+    this.abi = abi;
   }
 
-  public storeProofOfAuthority(wallet: KeyringPair, params: ProofOfAuthorityVariables){
+  public storeProofOfAuthority(wallet: KeyringPair, params: ProofOfAuthorityVariables) {
     return this.sendTransaction(wallet, "storeProofOfAuthority", [params]);
   }
 
-  public storeProofOfSignature(wallet: KeyringPair, params: ProofOfSignatureVariables){
+  public storeProofOfSignature(wallet: KeyringPair, params: ProofOfSignatureVariables) {
     return this.sendTransaction(wallet, "storeProofOfSignature", [params]);
   }
 
-  public storeProofOfAgreement(wallet: KeyringPair, params: ProofOfAgreementVariables){
+  public storeProofOfAgreement(wallet: KeyringPair, params: ProofOfAgreementVariables) {
     return this.sendTransaction(wallet, "storeProofOfAgreement", [params]);
   }
 
@@ -37,10 +35,13 @@ class DaosignPolkadotContractInteractor {
 
   private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T[]): Promise<unknown> {
     await cryptoWaitReady();
+    const api = await ApiPromise.create({ provider: this.wsProvider })
+    const abi = new Abi(this.abi, api.registry.getChainProperties())
+    const contract = new ContractPromise(api, abi, this.address)
 
-    const { gasRequired, storageDeposit } = await this.contract.query[methodName](account.address, {}, ...params);
+    const { gasRequired, storageDeposit } = await contract.query[methodName](account.address, {}, ...params);
 
-    const tx = await this.contract.tx[methodName]({
+    const tx = await contract.tx[methodName]({
       gasLimit: gasRequired,
       storageDepositLimit: storageDeposit.asCharge
     }, ...params);
