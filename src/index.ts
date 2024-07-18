@@ -2,8 +2,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Keyring } from '@polkadot/keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import {KeyringPair} from "@polkadot/keyring/types";
-import {ProofOfAgreementVariables, ProofOfAuthorityVariables, ProofOfSignatureVariables} from "./proofTypes";
+import { KeyringPair } from "@polkadot/keyring/types";
+import { ProofOfAgreementVariables, ProofOfAuthorityVariables, ProofOfSignatureVariables } from "./proofTypes";
 
 export class DaosignPolkadotContractInteractor {
   private readonly wsProvider: WsProvider;
@@ -17,24 +17,26 @@ export class DaosignPolkadotContractInteractor {
   }
 
   public storeProofOfAuthority(wallet: KeyringPair, params: ProofOfAuthorityVariables) {
-    return this.sendTransaction(wallet, "storeProofOfAuthority", [params]);
+    const signers = params.message.signers.map((signer) => { return { ...signer, addr: this.to32ByteHex(signer.addr) } })
+    return this.sendTransaction(wallet, "storeProofOfAuthority", [{ ...params, message: { ...params.message, signers, from: this.to32ByteHex(params.message.from), timestamp: this.numberTo32ByteArray(params.message.timestamp) } }]);
   }
 
   public storeProofOfSignature(wallet: KeyringPair, params: ProofOfSignatureVariables) {
-    return this.sendTransaction(wallet, "storeProofOfSignature", [params]);
+    return this.sendTransaction(wallet, "storeProofOfSignature", [{ ...params, message: { ...params.message, signer: this.to32ByteHex(params.message.signer), timestamp: this.numberTo32ByteArray(params.message.timestamp) } }]);
   }
 
   public storeProofOfAgreement(wallet: KeyringPair, params: ProofOfAgreementVariables) {
-    return this.sendTransaction(wallet, "storeProofOfAgreement", [params]);
+    return this.sendTransaction(wallet, "storeProofOfAgreement", [{ ...params, message: { ...params.message, timestamp: this.numberTo32ByteArray(params.message.timestamp) } }]);
   }
 
-  public connectWallet(accountSeed: string) {
+  public async connectWallet(accountSeed: string, hdPath?: string) {
+    await cryptoWaitReady();
+
     const keyring = new Keyring({ type: 'sr25519' });
-    return keyring.addFromUri(accountSeed);
+    return keyring.addFromUri(`${accountSeed}${hdPath || ""}`);
   }
 
   private async sendTransaction<T>(account: KeyringPair, methodName: string, params: T[]): Promise<string> {
-    await cryptoWaitReady();
     const api = await ApiPromise.create({ provider: this.wsProvider })
     const abi = new Abi(this.abi, api.registry.getChainProperties())
     const contract = new ContractPromise(api, abi, this.address)
@@ -48,10 +50,25 @@ export class DaosignPolkadotContractInteractor {
 
     return new Promise<string>((resolve, reject) => {
       tx.signAndSend(account, (result) => {
-        if (result.status.isFinalized) {
+        if (result.status.isInBlock) {
+          console.log('Transaction included in block');
+        } else if (result.status.isFinalized) {
+          console.log('Transaction finalized');
           resolve(result.txHash.toHex());
         }
       }).catch(reject);
     });
+  }
+
+  private to32ByteHex(hex: string): string {
+    if (hex.startsWith('0x')) {
+      hex = hex.slice(2);
+    }
+    return '0x' + hex.padStart(64, '0');
+  }
+
+  private numberTo32ByteArray(num: number): string {
+    const hex = num.toString(16).padStart(64, '0');
+    return '0x' + hex;
   }
 }

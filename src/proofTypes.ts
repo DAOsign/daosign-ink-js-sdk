@@ -1,72 +1,38 @@
 export interface ProofOfAuthorityVariables {
-  address: string;
-  sig: string;
-  data: {
-    domain: {
-      name: string,
-      version: string,
-      chainId: number,
-      verifyingContract: string;
-    }
-  };
-  types: {
-    ProofOfAuthority: {
-      name: string,
-      type: string,
-    }[],
-    Signer: {
-      name: string,
-      type: string
-    }[]
-  };
-  primaryType: "ProofOfAuthority";
+  proofCID: string;
+  signature: string;
   message: {
-    name: "Proof-of-Authority";
+    name: string;
     from: string;
     agreementCID: string;
-    signers: {
+    signers: Array<{
       addr: string,
       metadata: string
-    }[],
-    app: string;
-    timestamp: Date;
+    }>,
+    timestamp: number;
     metadata: string;
   }
-
 }
 
 export interface ProofOfSignatureVariables {
-  address: string;
-  sig: string;
-  data: {
-    domain: {
-      name: string;
-      version: string;
-      chainId: number;
-      verifyingContract: string;
-    };
-    types: {
-      ProofOfSignature: {
-        name: string;
-        type: string;
-      }[];
-    };
-    primaryType: "ProofOfSignature";
-    message: {
+  proofCID: string;
+  signature: string;
+  message: {
       authorityCID: string;
-      name: "Proof-of-Signature";
+      name: string;
       signer: string;
-      app: string;
       timestamp: number;
       metadata: string;
-    };
   };
 }
 
 export interface ProofOfAgreementVariables {
-  agreementFileProofCID: string;
-  agreementSignProofs: {
-    proofCID: string;
-  }[];
-  timestamp: number;
+  message: {
+    name: string;
+    authorityCID: string;
+    signatureCIDs: string[];
+    timestamp: number;
+    metadata: string;
+  };
+  proofCID: string;
 }

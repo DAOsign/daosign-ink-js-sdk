@@ -1,0 +1,1658 @@
+{
+  "source": {
+    "hash": "0xcc3a555955f0db4876a87add158c7543138e844dadf29889ccae4e7f0aca8b64",
+    "language": "ink! 4.3.0",
+    "compiler": "rustc 1.80.0-nightly",
+    "build_info": {
+      "build_mode": "Debug",
+      "cargo_contract_version": "4.1.1",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "daosign_app",
+    "version": "1.0.0",
+    "authors": [
+      "Misha Kushka, CIDT <https://consideritdone.tech>"
+    ]
+  },
+  "image": null,
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "label": "domain",
+            "type": {
+              "displayName": [
+                "EIP712Domain"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          "# Ink! constructor for creating a new DAOsignApp instance.",
+          "",
+          "This constructor initializes a new DAOsignApp contract instance with the provided EIP712 domain.",
+          "",
+          "# Arguments",
+          "",
+          "* `domain` - EIP712Domain struct representing the domain of the contract.",
+          "",
+          "# Returns",
+          "",
+          "A new instance of DAOsignApp."
+        ],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 11
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 23
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 24
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 9
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 27
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 25
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 26
+      }
+    },
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfAuthority"
+              ],
+              "type": 14
+            }
+          }
+        ],
+        "docs": [
+          "Event emitted when a new Proof-of-Authority is added."
+        ],
+        "label": "NewProofOfAuthority"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfSignature"
+              ],
+              "type": 16
+            }
+          }
+        ],
+        "docs": [
+          "Event emitted when a new Proof-of-Signature is added."
+        ],
+        "label": "NewProofOfSignature"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfAgreement"
+              ],
+              "type": 18
+            }
+          }
+        ],
+        "docs": [
+          "Event emitted when a new Proof-of-Agreement is added."
+        ],
+        "label": "NewProofOfAgreement"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 13
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfAuthority"
+              ],
+              "type": 14
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to store a Proof of Authority.",
+          "",
+          " This function stores a Proof of Authority along with its signature and validates the signature and message.",
+          " If the data is valid, it is stored in the contract, and relevant mappings are updated.",
+          "",
+          " # Arguments",
+          "",
+          " * `data` - SignedProofOfAuthority struct containing the proof of authority data and its signature."
+        ],
+        "label": "store_proof_of_authority",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 11
+        },
+        "selector": "0xacd60adb"
+      },
+      {
+        "args": [
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfSignature"
+              ],
+              "type": 16
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to store a Proof of Signature.",
+          "",
+          " This function stores a Proof of Signature along with its signature and validates the signature and message.",
+          " If the data is valid, it is stored in the contract, and relevant mappings are updated.",
+          "",
+          " # Arguments",
+          "",
+          " * `data` - SignedProofOfSignature struct containing the proof of signature data and its signature."
+        ],
+        "label": "store_proof_of_signature",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 11
+        },
+        "selector": "0x277256bf"
+      },
+      {
+        "args": [
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "SignedProofOfAgreement"
+              ],
+              "type": 18
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to store a Proof of Agreement.",
+          "",
+          " This function stores a Proof of Agreement and validates the message. If the data is valid, it is stored in the contract.",
+          "",
+          " # Arguments",
+          "",
+          " * `data` - SignedProofOfAgreement struct containing the proof of agreement data."
+        ],
+        "label": "store_proof_of_agreement",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 11
+        },
+        "selector": "0x4e667edc"
+      },
+      {
+        "args": [
+          {
+            "label": "cid",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to retrieve a Proof of Authority by its CID.",
+          "",
+          " This function retrieves a stored Proof of Authority by its CID.",
+          "",
+          " # Arguments",
+          "",
+          " * `cid` - String representing the CID of the Proof of Authority."
+        ],
+        "label": "get_proof_of_authority",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 20
+        },
+        "selector": "0x889d7fb2"
+      },
+      {
+        "args": [
+          {
+            "label": "cid",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to retrieve a Proof of Signature by its CID.",
+          "",
+          " This function retrieves a stored Proof of Signature by its CID.",
+          "",
+          " # Arguments",
+          "",
+          " * `cid` - String representing the CID of the Proof of Signature."
+        ],
+        "label": "get_proof_of_signature",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x4300f0b7"
+      },
+      {
+        "args": [
+          {
+            "label": "cid",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " # Ink! message to retrieve a Proof of Agreement by its CID.",
+          "",
+          " This function retrieves a stored Proof of Agreement by its CID.",
+          "",
+          " # Arguments",
+          "",
+          " * `cid` - String representing the CID of the Proof of Agreement."
+        ],
+        "label": "get_proof_of_agreement",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 22
+        },
+        "selector": "0xc06d3b8b"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 0
+                                }
+                              },
+                              "name": "name"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 0
+                                }
+                              },
+                              "name": "version"
+                            },
+                            {
+                              "layout": {
+                                "array": {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x00000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "len": 32,
+                                  "offset": "0x00000000"
+                                }
+                              },
+                              "name": "chain_id"
+                            },
+                            {
+                              "layout": {
+                                "array": {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x00000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "len": 32,
+                                  "offset": "0x00000000"
+                                }
+                              },
+                              "name": "verifying_contract"
+                            }
+                          ],
+                          "name": "EIP712Domain"
+                        }
+                      },
+                      "name": "domain"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "domain_hash"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "eip712domain_typehash"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "signer_typehash"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "proof_of_authority_typehash"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "proof_of_signature_typehash"
+                    },
+                    {
+                      "layout": {
+                        "array": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00000000",
+                              "ty": 1
+                            }
+                          },
+                          "len": 32,
+                          "offset": "0x00000000"
+                        }
+                      },
+                      "name": "proof_of_agreement_typehash"
+                    },
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "eip712_domain"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "signer"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "proof_of_authority"
+                            }
+                          ],
+                          "name": "EIP712ProofOfAuthorityTypes"
+                        }
+                      },
+                      "name": "proof_of_authority_types"
+                    },
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "eip712_domain"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "proof_of_signature"
+                            }
+                          ],
+                          "name": "EIP712ProofOfSignatureTypes"
+                        }
+                      },
+                      "name": "proof_of_signature_types"
+                    },
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "eip712_domain"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 2
+                                }
+                              },
+                              "name": "proof_of_agreement"
+                            }
+                          ],
+                          "name": "EIP712ProofOfAgreementTypes"
+                        }
+                      },
+                      "name": "proof_of_agreement_types"
+                    }
+                  ],
+                  "name": "DAOsignEIP712"
+                }
+              },
+              "name": "eip712"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "struct": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x2088e843",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "name"
+                                },
+                                {
+                                  "layout": {
+                                    "array": {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x2088e843",
+                                          "ty": 1
+                                        }
+                                      },
+                                      "len": 32,
+                                      "offset": "0x2088e843"
+                                    }
+                                  },
+                                  "name": "from"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x2088e843",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "agreement_cid"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x2088e843",
+                                      "ty": 4
+                                    }
+                                  },
+                                  "name": "signers"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x2088e843",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "app"
+                                },
+                                {
+                                  "layout": {
+                                    "array": {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x2088e843",
+                                          "ty": 1
+                                        }
+                                      },
+                                      "len": 32,
+                                      "offset": "0x2088e843"
+                                    }
+                                  },
+                                  "name": "timestamp"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x2088e843",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "metadata"
+                                }
+                              ],
+                              "name": "ProofOfAuthority"
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2088e843",
+                              "ty": 7
+                            }
+                          },
+                          "name": "signature"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2088e843",
+                              "ty": 0
+                            }
+                          },
+                          "name": "proof_cid"
+                        }
+                      ],
+                      "name": "SignedProofOfAuthority"
+                    }
+                  },
+                  "root_key": "0x2088e843"
+                }
+              },
+              "name": "poaus"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "struct": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x649a2360",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "name"
+                                },
+                                {
+                                  "layout": {
+                                    "array": {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x649a2360",
+                                          "ty": 1
+                                        }
+                                      },
+                                      "len": 32,
+                                      "offset": "0x649a2360"
+                                    }
+                                  },
+                                  "name": "signer"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x649a2360",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "agreement_cid"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x649a2360",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "app"
+                                },
+                                {
+                                  "layout": {
+                                    "array": {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x649a2360",
+                                          "ty": 1
+                                        }
+                                      },
+                                      "len": 32,
+                                      "offset": "0x649a2360"
+                                    }
+                                  },
+                                  "name": "timestamp"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x649a2360",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "metadata"
+                                }
+                              ],
+                              "name": "ProofOfSignature"
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x649a2360",
+                              "ty": 7
+                            }
+                          },
+                          "name": "signature"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x649a2360",
+                              "ty": 0
+                            }
+                          },
+                          "name": "proof_cid"
+                        }
+                      ],
+                      "name": "SignedProofOfSignature"
+                    }
+                  },
+                  "root_key": "0x649a2360"
+                }
+              },
+              "name": "posis"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "struct": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x488f3a8b",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "agreement_cid"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x488f3a8b",
+                                      "ty": 8
+                                    }
+                                  },
+                                  "name": "signature_cids"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x488f3a8b",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "app"
+                                },
+                                {
+                                  "layout": {
+                                    "array": {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x488f3a8b",
+                                          "ty": 1
+                                        }
+                                      },
+                                      "len": 32,
+                                      "offset": "0x488f3a8b"
+                                    }
+                                  },
+                                  "name": "timestamp"
+                                },
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x488f3a8b",
+                                      "ty": 0
+                                    }
+                                  },
+                                  "name": "metadata"
+                                }
+                              ],
+                              "name": "ProofOfAgreement"
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x488f3a8b",
+                              "ty": 7
+                            }
+                          },
+                          "name": "signature"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x488f3a8b",
+                              "ty": 0
+                            }
+                          },
+                          "name": "proof_cid"
+                        }
+                      ],
+                      "name": "SignedProofOfAgreement"
+                    }
+                  },
+                  "root_key": "0x488f3a8b"
+                }
+              },
+              "name": "poags"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "array": {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x7474eab5",
+                          "ty": 1
+                        }
+                      },
+                      "len": 32,
+                      "offset": "0x7474eab5"
+                    }
+                  },
+                  "root_key": "0x7474eab5"
+                }
+              },
+              "name": "proof2signer"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xc700babd",
+                      "ty": 9
+                    }
+                  },
+                  "root_key": "0xc700babd"
+                }
+              },
+              "name": "poau_signers_idx"
+            }
+          ],
+          "name": "DAOsignApp"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "kind",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "EIP712PropertyType"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "addr",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "metadata",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "Signer"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 1
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 1
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "version",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "chain_id",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "verifying_contract",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "EIP712Domain"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 12
+          },
+          {
+            "name": "E",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message",
+                "type": 15,
+                "typeName": "ProofOfAuthority"
+              },
+              {
+                "name": "signature",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "proof_cid",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_app",
+          "daosign_app",
+          "SignedProofOfAuthority"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "from",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "agreement_cid",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "signers",
+                "type": 4,
+                "typeName": "Vec<Signer>"
+              },
+              {
+                "name": "app",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "metadata",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "ProofOfAuthority"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message",
+                "type": 17,
+                "typeName": "ProofOfSignature"
+              },
+              {
+                "name": "signature",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "proof_cid",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_app",
+          "daosign_app",
+          "SignedProofOfSignature"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "signer",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "agreement_cid",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "app",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "metadata",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "ProofOfSignature"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message",
+                "type": 19,
+                "typeName": "ProofOfAgreement"
+              },
+              {
+                "name": "signature",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "proof_cid",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_app",
+          "daosign_app",
+          "SignedProofOfAgreement"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "agreement_cid",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "signature_cids",
+                "type": 8,
+                "typeName": "Vec<String>"
+              },
+              {
+                "name": "app",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "[u8; 32]"
+              },
+              {
+                "name": "metadata",
+                "type": 0,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daosign_eip712",
+          "daosign_eip712",
+          "ProofOfAgreement"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 14
+          },
+          {
+            "name": "E",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 16
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 16
+          },
+          {
+            "name": "E",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          },
+          {
+            "name": "E",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 6,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 6,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

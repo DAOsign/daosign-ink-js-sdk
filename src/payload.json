@@ -1,0 +1,17 @@
+{
+  "message": {
+    "from": "0xb1ff285b5e42cd2a0abf67e4552cf5a6986edba4",
+    "name": "Proof-of-Authority",
+    "signers": [
+      {
+        "addr": "0xb1ff285b5e42cd2a0abf67e4552cf5a6986edba4",
+        "metadata": "{}"
+      }
+    ],
+    "metadata": "{}",
+    "timestamp": 1721241801465,
+    "agreementCID": "QmYZvqg4oNnc4fq5D5LjXWjPQ9xxKWjSoPxT6ft72kwnjL"
+  },
+  "signature": "0xeda8a5b73ab93aee4bbda62ca942ef426340ff914a3b5e404baa1717e4b7787f7e09fe29aaa8e09b1756e440afe1578071d5bc0983328addc0e8e03630b46e081b",
+  "proofCID": "QmYo4rEghANtCxxm8HVXrgwgaJjqqEdu8cyvfFUXjJb7xM"
+}
