@@ -1,17 +1,21 @@
 {
-  "name": "daosign-polkadot",
+  "name": "@daosign/polkadot",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "src", "tsconfig.json"],
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json"
+  ],
   "scripts": {
     "build": "tsc",
     "build:lib": "tsc && npm pack",
     "publish:lib": "npm run publish"
   },
   "keywords": [],
-  "author": "",
+  "author": "DaoSign",
   "license": "ISC",
   "dependencies": {
     "@polkadot/api": "^12.1.1",
