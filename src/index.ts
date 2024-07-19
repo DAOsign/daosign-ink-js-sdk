@@ -54,6 +54,7 @@ export class DaosignPolkadotContractInteractor {
           console.log('Transaction included in block');
         } else if (result.status.isFinalized) {
           console.log('Transaction finalized');
+          api.disconnect();
           resolve(result.txHash.toHex());
         }
       }).catch(reject);
