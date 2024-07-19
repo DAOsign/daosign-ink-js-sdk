@@ -72,4 +72,15 @@ export class DaosignPolkadotContractInteractor {
     const hex = num.toString(16).padStart(64, '0');
     return '0x' + hex;
   }
+
+  async getAccountBalance(address: string) {
+    const api = await ApiPromise.create({ provider: this.wsProvider })
+
+    //@ts-ignore
+    const { data: { free: freeBalance } } = await api.query.system.account(address);
+
+    await api.disconnect();
+
+    return freeBalance.toNumber();
+  }
 }
