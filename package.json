@@ -18,9 +18,10 @@
   "author": "DaoSign",
   "license": "ISC",
   "dependencies": {
-    "@polkadot/api": "^12.1.1",
-    "@polkadot/api-contract": "^12.1.1",
-    "@polkadot/keyring": "^12.6.2"
+    "@727-ventures/typechain-types": "^1.1.2",
+    "@polkadot/api": "^10.8.1",
+    "@polkadot/api-contract": "^10.8.1",
+    "@polkadot/keyring": "12.6.2"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
