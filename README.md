@@ -5,7 +5,7 @@ JS/Typescript SDK for DaoSign [Polkadot smart contracts](https://github.com/DAOs
 
 ## Installation
 
-```bash
+```shell
 npm install @daosign/polkadot
 ```
 
@@ -29,3 +29,29 @@ console.log("Transaction hash:", transactionHash);
 
 ```
 
+## Testing
+
+Run following command to execute unit tests:
+
+```shell
+npm install
+npm run test
+```
+
+You should see output likt that:
+
+```
+> @daosign/polkadot@1.0.0 test
+> jest
+
+ PASS  __tests__/DaosignPolkadotContractInteractor.test.ts (6.783 s)
+  DaosignPolkadotContractInteractor
+    ✓ should get account balance successfully (27 ms)
+    ✓ should throw an error if account balance retrieval fails (12 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        6.848 s
+Ran all test suites.
+```
