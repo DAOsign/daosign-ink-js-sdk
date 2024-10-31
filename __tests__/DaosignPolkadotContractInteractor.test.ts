@@ -78,7 +78,7 @@ describe("sendTransaction", () => {
 
   test("should send a transaction successfully with valid parameters", async () => {
     mockContract.query.storeProofOfAuthority.mockResolvedValue({
-      gasRequired: new BN(1000000), // Adjust as needed
+      gasRequired: new BN(1000000),
       storageDepositLimit: new BN("07a120", 16),
       result: { isErr: false },
       output: {}
