@@ -141,6 +141,10 @@ export class DaosignPolkadotContractInteractor {
   }
 
   numberToArray(number) {
+    if (number < 0) {
+      throw new Error("Number is out of range");
+    }
+
     if (!Number.isSafeInteger(number)) {
       throw new Error("Number is out of range");
     }
