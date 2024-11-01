@@ -2,8 +2,11 @@ import { DaosignPolkadotContractInteractor } from '../src';
 import { ApiPromise } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { BN } from '@polkadot/util';
-import { ProofOfAgreementVariables, ProofOfAuthorityVariables } from "../src/proofTypes";
+import { ProofOfAgreementVariables, ProofOfAuthorityVariables, ProofOfSignatureVariables } from "../src/proofTypes";
 import { ContractPromise } from "@polkadot/api-contract";
+import { cryptoWaitReady } from "@polkadot/util-crypto";
+import { mock } from "jest-mock-extended";
+import { Keyring } from "@polkadot/keyring";
 
 jest.mock('@polkadot/api', () => ({
   ApiPromise: {
@@ -211,6 +214,38 @@ describe("Proof storage functions", () => {
     expect(result).toBe(mockTxHash);
   });
 
+  test("should store proof of signature successfully with valid parameters", async () => {
+    const params: ProofOfSignatureVariables = {
+      proofCID: "proofCID456",
+      signature: "signature456",
+      message: {
+        authorityCID: "authorityCID456",
+        name: "Valid Proof of Signature",
+        signer: "0x9876",
+        timestamp: 1234567890,
+        metadata: "metadata"
+      }
+    };
+
+    const mockTxHash = "0xmocktxhash";
+    const mockTx = {
+      signAndSend: jest.fn((account, callback) => {
+        callback({ status: { isFinalized: true }, txHash: { toHex: () => mockTxHash } });
+        return Promise.resolve("");
+      })
+    };
+
+    mockContract.query.storeProofOfSignature.mockResolvedValue({
+      gasRequired: new BN(1000000),
+      result: { isErr: false },
+      output: {}
+    });
+    mockContract.tx.storeProofOfSignature.mockReturnValue(mockTx);
+
+    const result = await interactor.storeProofOfSignature(wallet, params);
+    expect(result).toBe(mockTxHash);
+  });
+
   test("should fail storing proof of authority with invalid parameters", async () => {
     const params = {
       proofCID: "invalid_proofCID",
@@ -255,6 +290,49 @@ describe("Proof storage functions", () => {
     });
 
     await expect(interactor.storeProofOfAgreement(wallet, params)).rejects.toThrow("Network error");
+  });
+});
+
+describe('Check wallet balance', () => {
+  let interactor: DaosignPolkadotContractInteractor;
+  let mockWallet: any;
+  let mockApi: any;
+
+  beforeEach(async () => {
+    await cryptoWaitReady();
+
+    mockApi = mock<ApiPromise>();
+    (ApiPromise.create as jest.Mock).mockResolvedValue(mockApi);
+    interactor = new DaosignPolkadotContractInteractor('mockAddress');
+    const keyring = new Keyring({ type: 'sr25519' });
+    mockWallet = keyring.addFromUri('//Alice');
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should get account balance successfully', async () => {
+    const address = '0x1234567890abcdef1234567890abcdef12345678';
+    mockApi.query.system = {
+      account: jest.fn().mockResolvedValue({
+        data: {
+          free: new BN(1000000),
+        },
+      }),
+    };
+
+    const balance = await interactor.getAccountBalance(address);
+    expect(balance).toBe('1000000');
+  });
+
+  it('should throw an error if account balance retrieval fails', async () => {
+    const address = '0x1234567890abcdef1234567890abcdef12345678';
+    mockApi.query.system = {
+      account: jest.fn().mockRejectedValue(new Error('Query failed')),
+    };
+
+    await expect(interactor.getAccountBalance(address)).rejects.toThrow('Query failed');
   });
 });
 
