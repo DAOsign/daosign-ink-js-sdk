@@ -246,6 +246,38 @@ describe("Proof storage functions", () => {
     expect(result).toBe(mockTxHash);
   });
 
+  test("should store proof of agreement successfully with valid parameters", async () => {
+    const params: ProofOfAgreementVariables = {
+      proofCID: "proofCID789",
+      message: {
+        name: "Valid Proof of Agreement",
+        authorityCID: "authorityCID789",
+        signatureCIDs: ["sigCID1", "sigCID2"],
+        timestamp: 1234567890,
+        metadata: "metadata"
+      }
+    };
+
+    const mockTxHash = "0xmocktxhash";
+    const mockTx = {
+      signAndSend: jest.fn((account, callback) => {
+        callback({ status: { isFinalized: true }, txHash: { toHex: () => mockTxHash } });
+        return Promise.resolve("");
+      })
+    };
+
+    mockContract.query.storeProofOfAgreement.mockResolvedValue({
+      gasRequired: new BN(1000000),
+      result: { isErr: false },
+      output: {}
+    });
+    mockContract.tx.storeProofOfAgreement.mockReturnValue(mockTx);
+
+    const result = await interactor.storeProofOfAgreement(wallet, params);
+    expect(result).toBe(mockTxHash);
+  });
+
+
   test("should fail storing proof of authority with invalid parameters", async () => {
     const params = {
       proofCID: "invalid_proofCID",
@@ -266,6 +298,47 @@ describe("Proof storage functions", () => {
     });
 
     await expect(interactor.storeProofOfAuthority(wallet, params)).rejects.toThrow("Transaction failed");
+  });
+
+  test("should fail storing proof of signature with invalid parameters", async () => {
+    const params = {
+      proofCID: "invalid_proofCID",
+      signature: "invalid_signature",
+      message: {
+        authorityCID: "",
+        name: "Invalid Proof of Signature",
+        signer: "0x0000",
+        timestamp: 0,
+        metadata: ""
+      }
+    } as ProofOfSignatureVariables;
+
+    mockContract.query.storeProofOfSignature.mockResolvedValue({
+      gasRequired: new BN(1000000),
+      result: { isErr: true }
+    });
+
+    await expect(interactor.storeProofOfSignature(wallet, params)).rejects.toThrow("Transaction failed");
+  });
+
+  test("should fail storing proof of agreement with invalid parameters", async () => {
+    const params = {
+      proofCID: "invalid_proofCID",
+      message: {
+        name: "Invalid Proof of Agreement",
+        authorityCID: "",
+        signatureCIDs: [],
+        timestamp: 0,
+        metadata: ""
+      }
+    } as ProofOfAgreementVariables;
+
+    mockContract.query.storeProofOfAgreement.mockResolvedValue({
+      gasRequired: new BN(1000000),
+      result: { isErr: true }
+    });
+
+    await expect(interactor.storeProofOfAgreement(wallet, params)).rejects.toThrow("Transaction failed");
   });
 
   test("should handle network issues or contract errors in proof storage", async () => {
